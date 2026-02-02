@@ -1,14 +1,22 @@
 import webview
-import threading
+import subprocess
+import sys
+import os
 import time
-import launcher
 
 def start_streamlit():
-    launcher.main()
+    subprocess.Popen([
+        sys.executable, "-m", "streamlit", "run",
+        "app.py",
+        "--server.headless=true",
+        "--server.port=8501",
+        "--browser.gatherUsageStats=false"
+    ])
 
 if __name__ == "__main__":
-    threading.Thread(target=start_streamlit, daemon=True).start()
-    time.sleep(2)  # 等 Streamlit 启动
+    start_streamlit()
+    time.sleep(2)  # 等 Streamlit 起服务
+
     webview.create_window(
         "多品种交易风控与研究系统",
         "http://127.0.0.1:8501",
